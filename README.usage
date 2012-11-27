@@ -1,0 +1,95 @@
+================================================================================
+1. Installation and dependecies
+================================================================================
+================================
+# installation of EeCon
+================================
+Extract the archive in your folder. Run --help to see the supported operations.
+
+
+
+================================
+# Dependencies
+================================
+EeCon supports Python 2.6 (release: 2008 October) and never.
+EeCon requires that some functionality is already installed on your system:
+
+#
+# Required packages on Debian/Ubuntu (install using: apt-get install <package>)
+#
+python
+python-lxml
+python-imaging
+python-enchant aspell-no aspell-sv aspell-da
+python-utidylib
+python-argparse
+python-chardet
+w3c-dtd-xhtml
+git
+zip 
+
+#
+# Required packages on Fedora 17 (install using: yum install <package>)
+#
+python
+python-lxml
+python-imaging
+python-enchant enchant-aspell aspell-no aspell-sv aspell-da
+python-tidy.noarch
+git
+
+
+
+NOTE: xhtml11-dtds is not available in the Fedora repos, install manually:
+wget http://olea.org/paquetes-rpm/xhtml11-dtds-1.1-20010531.3.noarch.rpm
+rpm -Uvh xhtml11-dtds-1.1-20010531.3.noarch.rpm 
+
+
+
+================================
+# Git configuration
+================================
+EeCon uses Git and it should be configured before use:
+git config --global user.name "Your Name"
+git config --global user.email "Your mail address"
+
+
+
+================================================================
+2. Work flow
+================================================================
+A typical work flow could be like this:
+
+Select a Project Runeberg publication. E.g. http://runeberg.org/bannlyst/
+Click on download at the bottom of the page, and copy the link item "All text and index files".
+
+# fetch the Project Runeberg archive:
+./eecon_fetcher.py --source "http://runeberg.org/download.pl?mode=txtzip&work=bannlyst"
+
+# auto-markup
+./eecon_fetcher.py --title bannlyst --auto-markup
+
+# analyze
+./eecon_analyzer.py --title bannlyst
+
+# convert
+./eecon_converter.py --title bannlyst
+
+
+
+================================================================
+3. Useful GNU/Linux tools
+================================================================
+# sed
+
+# aspell
+
+
+
+================================================================
+4. Testing
+================================================================
+EeCon is tested on Debian Squeeze, Ubuntu Precise Pangolin and Fedora 17. 64-bit versions.
+NOTE: Debian squeeze has an outdated lxml package originating from June 2010. This causes some
+problems when causing DOCTYPE in content files, so this functionality is therefore disabled on
+Debian Squeeze.

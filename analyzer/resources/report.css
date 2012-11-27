@@ -1,0 +1,38 @@
+table.table_report{
+    font-family: "Tahoma", sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 1.4em;
+    font-style: normal;
+    border-collapse:separate;
+    border-spacing:5px 5px;
+    text-align:center;
+    margin-left:auto; 
+    margin-right:auto;
+}
+td.ok,a.ok{
+    color:green;
+    text-decoration: none;
+}
+td.error, a.error{
+    color:red;
+}
+
+th.row{
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+}
+
+p{
+    font-family: "Tahoma", sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 1.4em;
+    font-style: normal;
+    border-collapse:separate;
+
+}
+h3{
+    text-align:center;
+}
