@@ -20,6 +20,7 @@ along with EeCon.  If not, see <http://www.gnu.org/licenses/>.
 import sys
 import chardet
 import subprocess
+import os
 
 from analyzer.analyzer_factory import AnalyzerFactory
 
@@ -76,40 +77,39 @@ class AnalyzerUnicode(AnalyzerFactory):
         
         RETURN: 
         """
-        encoding = None
+        enc = None
         first = True
 
         # try to find the file encoding
-        try:
-            # detect encoding using chardet
-            if self.method == "chardet":
-                if first:
-                    first = False
-                raw_bytes = open(filename).read()
-                encoding = self.analyze_chardet(raw_bytes)
-            
-            # detect encoding using file
-            if self.method == "file":
-                if first:
-                    first = False
-                encoding = self.analyze_file(filename)
+        if os.path.isfile(filename):
+            try:
+                # detect encoding using chardet
+                if self.method == "chardet":
+                    if first:
+                        first = False
+                    raw_bytes = open(filename).read()
+                    enc = self.analyze_chardet(raw_bytes)
+                
+                # detect encoding using file
+                if self.method == "file":
+                    if first:
+                        first = False
+                    enc = self.analyze_file(filename)
 
-        except (IOError) as err:
-            sys.stderr.write("EXCEPTION]: Analyzing file encoding\n ")
-            print err
-       
-        # add to dictionary
-        enc = encoding.lower()
-        if "utf-8" not in enc and "ascii" not in enc and "binary" not in enc:
-            status = "error"
-        else:
-            status = "ok"
+            except (OSError,IOError) as err:
+                sys.stderr.write("EXCEPTION]: Analyzing file encoding\n ")
+           
+            # add to dictionary
+            if "utf-8" not in enc and "ascii" not in enc and "binary" not in enc:
+                status = "error"
+            else:
+                status = "ok"
 
-        encoding_status = { "encoding"  :   enc,
-                            "status"    :   status  }
+            encoding_status = { "encoding"  :   enc,
+                                "status"    :   status  }
 
 
-        return encoding_status
+            return encoding_status
     
     
     
@@ -128,11 +128,15 @@ class AnalyzerUnicode(AnalyzerFactory):
         """
         encoding = None
 
-        result = chardet.detect(raw_bytes)
-        encoding = result['encoding']
+        try: 
+            # detect encoding and read result from dict
+            result = chardet.detect(raw_bytes)
+            encoding = result['encoding']
+        except OSError:
+            pass
         
 
-        return encoding
+        return encoding.lower()
         
 
     # ==========================================================================
@@ -161,7 +165,7 @@ class AnalyzerUnicode(AnalyzerFactory):
             print "[ERROR] Do manual research."
             sys.exit(1)
 
-        return encoding.strip()
+        return encoding.strip().lower()
 
 
 
@@ -181,14 +185,16 @@ class AnalyzerUnicode(AnalyzerFactory):
 
         all_files = self.file_operations.list_files(self.working_path, "*")
 
-        print "[STATUS] analyzing file encoding (using:file)",
+        print "[STATUS] analyzing file encoding... ",
         for filename in all_files:
-            file_encoding = self.analyze(filename)
-            enc =  file_encoding["encoding"]
+            if os.path.isfile(filename):
+                file_encoding = self.analyze(filename)
+                enc =  file_encoding["encoding"]
 
-            # detect non-valid encoding, iso-8859-1
-            if "utf-8" not in enc and "ascii" not in enc and "binary" not in enc:
-                return False
+                # detect non-valid encoding, iso-8859-1
+                if "utf-8" not in enc and "ascii" not in enc \
+                    and "binary" not in enc and "euc-kr" not in enc:
+                    return False
 
         print "done."
         return True

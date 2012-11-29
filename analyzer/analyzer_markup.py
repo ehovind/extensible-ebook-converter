@@ -81,7 +81,7 @@ class AnalyzerMarkup(AnalyzerFactory):
 
     # ==========================================================================
     # METHOD:
-    #   analyze(filename, encoding)
+    #   analyze(filename)
     # ==========================================================================
     def analyze(self, filename):
         """
@@ -180,7 +180,7 @@ class AnalyzerMarkup(AnalyzerFactory):
 
     # ==========================================================================
     # METHOD:
-    #   analyze_tidy(filename, encoding)
+    #   analyze_tidy(filename)
     # ==========================================================================
     def analyze_tidy(self, filename):
         """
