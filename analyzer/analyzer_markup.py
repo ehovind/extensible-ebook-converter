@@ -300,12 +300,6 @@ class AnalyzerMarkup(AnalyzerFactory):
             report_file = self.markup_reports_path + filename_only
             self.file_operations.write_unicode_final(report_file, root_unicode)
     
-    # ==========================================================================
-    # METHOD:
-    #   spellcheck(filename, markup_status)
-    # ==========================================================================
-    def spellcheck(self, filename, markup_status):
-        pass
     
     
     

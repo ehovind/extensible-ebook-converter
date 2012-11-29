@@ -193,16 +193,3 @@ class AnalyzerUnicode(AnalyzerFactory):
         print "done."
         return True
 
-    # ==========================================================================
-    # METHOD:
-    #   spellcheck(filename, markup_status)
-    # ==========================================================================
-    def spellcheck(self, filename, markup_status):
-        """
-        DESCRIPTION:
-            
-        PARAMETERS:
-        
-        RETURN: 
-        """
-        pass

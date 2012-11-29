@@ -67,6 +67,7 @@ class AnalyzerSpellcheck(AnalyzerFactory):
                                     path_info   )
         self.method = method
         self.language = None
+        self.markup_status = None
 
         # datastructures
         self.spelling_status = list()
@@ -79,7 +80,7 @@ class AnalyzerSpellcheck(AnalyzerFactory):
     # METHOD:
     #   spellcheck(filename, markup_status)
     # ==========================================================================
-    def spellcheck(self, filename, markup_status):
+    def analyze(self, filename):
         """
         DESCRIPTION:
             
@@ -110,10 +111,10 @@ class AnalyzerSpellcheck(AnalyzerFactory):
             
 
         print "(lang: " +self.language +")"
-        
+
        
         # check if document is valid XHTML
-        if len(markup_status["errors"]) > 0 or not supported:
+        if len(self.markup_status["errors"]) > 0 or not supported:
             invalid = "N/A"
             self.spelling_status = {  "title"     : "Spellcheck",
                                 "errors"    :   list(),
@@ -187,6 +188,19 @@ class AnalyzerSpellcheck(AnalyzerFactory):
         """
         self.language = language
         
+    # ==========================================================================
+    # METHOD:
+    #   set_markup_status(markup_status)
+    # ==========================================================================
+    def set_markup_status(self, markup_status):
+        """
+        DESCRIPTION:
+            
+        PARAMETERS:
+        
+        RETURN: 
+        """
+        self.markup_status = markup_status
 
     # ==========================================================================
     # METHOD:
@@ -236,10 +250,3 @@ class AnalyzerSpellcheck(AnalyzerFactory):
         report_file = self.spellcheck_reports_path + filename_only
         self.file_operations.write_unicode_final(report_file, root_unicode)
 
-
-    # ==========================================================================
-    # METHOD:
-    #   analyze(filename, encoding)
-    # ==========================================================================
-    def analyze(self, filename):
-        pass

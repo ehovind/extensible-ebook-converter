@@ -160,10 +160,3 @@ class AnalyzerArticles(AnalyzerFactory):
         
         # write xml tree to file
         self.file_operations.write_unicode_final(self.articles_reports_file, root_unicode)
-    
-    # ==========================================================================
-    # METHOD:
-    #   spellcheck(filename, markup_status)
-    # ==========================================================================
-    def spellcheck(self, filename, markup_status):
-        pass

@@ -129,21 +129,3 @@ class AnalyzerFactory(object):
             void
         """
         raise NotImplementedError( "No implementation available" )
-    
-    # ==========================================================================
-    # METHOD:
-    #   analyze(EbookSource)
-    # ==========================================================================
-    def spellcheck(self, filename, markup_status):
-        """
-        DESCRIPTION:
-            Process command line arguments.
-            Abstract method, implemented in subclasses.
-            
-        PARAMETERS:
-            None
-        
-        RETURN: 
-            void
-        """
-        raise NotImplementedError( "No implementation available" )

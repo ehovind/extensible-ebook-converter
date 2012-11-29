@@ -216,7 +216,8 @@ class SourceAnalyzer(object):
                 if first:
                     pass
                     #print "[STATUS] Perform spellchecking..."
-                spellcheck_status =  analyzer_spellcheck.spellcheck(filename, markup_status)
+                analyzer_spellcheck.set_markup_status(markup_status)
+                spellcheck_status =  analyzer_spellcheck.analyze(filename)
                 report_entry.set_spellcheck_status(spellcheck_status)
             except NotImplementedError:
                 print "[FATAL] Analyzers not implemented"
