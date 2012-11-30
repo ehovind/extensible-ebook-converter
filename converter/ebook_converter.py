@@ -144,7 +144,7 @@ class EbookConverter(object):
         #
         # create patches
         #
-        self.create_patches("Committing modified files (econverter)")
+        self.create_patches("Committing modified files (eecon_converter)")
 
 
         # display summary
