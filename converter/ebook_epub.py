@@ -474,11 +474,11 @@ class EbookEpub(EbookFactory):
         body.append(h1)
 
         p = etree.Element("p")
-        p.text = "Teksten er hentet fra Prosjekt Runeberg"
+        p.text = "Teksten er hentet fra Prosjekt Runeberg."
         body.append(p)
 
         p = etree.Element("p")
-        p.text = "Konvertering til epub av \"econverter\" (Espen Hovind)"
+        p.text = "Konvertering til ePub av Extensible eBook Converter (EeCon)."
         body.append(p)
 
 
