@@ -836,7 +836,7 @@ class EbookEpub(EbookFactory):
         command = "zip -X -0 -r " + self.output_ebook_file + " mimetype" + " -x \*.svn* 1>/dev/null"
         os.system(command)
         
-        command = "zip -X -0 -r " + self.output_ebook_file + " META-INF/ OEBPS/" + " -x \*.svn* 1>/dev/null"
+        command = "zip -X -8 -r " + self.output_ebook_file + " META-INF/ OEBPS/" + " -x \*.svn* 1>/dev/null"
         os.system(command)
        
         # change, research stack popd
