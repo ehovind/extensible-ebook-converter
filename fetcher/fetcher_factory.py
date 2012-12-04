@@ -158,10 +158,7 @@ class FetcherFactory(object):
         if "mode=txtzip" not in url:
             print "[ERROR] Wrong archive"
             print "You should download the \"All text and index files\" version"
-
             sys.exit(1)
-
-       
 
         # open and read remote archive
         try:

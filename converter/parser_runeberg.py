@@ -268,7 +268,7 @@ class ParserRuneberg(ParserFactory):
                 
                 # seach for chapter numbering and titles
                 articles_format = re.compile(
-                        ur'([\d\w]+)?\|[\d+]?\.?([\w\-?\:?\s?\.()\d]+)\|(\d+)?-?(\d+)?', re.UNICODE)
+                        ur'([\d\w]+)?\|[\d+]?\.?([\w\-?\:?\s?\.\,()\d]+)\|(\d+)?-?(\d+)?', re.UNICODE)
                 
                 chapter_number = 1
                 for line in f:
@@ -385,7 +385,7 @@ class ParserRuneberg(ParserFactory):
         
         # search for page number anchor in text files
         page_number = 1
-        while page_number < int(number_of_pages):
+        while page_number <= int(number_of_pages):
             page_number_info = [None, None]
             
             # FORMAT
@@ -427,9 +427,14 @@ class ParserRuneberg(ParserFactory):
                         match = pages_lst_format.search(line)
                         if match:
                             page_anchors[page_number][1] = int(match.group(2))
-                            # rewind file
-                            f.seek(start_pos)
                             break
+    
+                    # if not match, remove from dict
+                    if not match:
+                        del page_anchors[page_number]
+
+                    # rewind file
+                    f.seek(start_pos)
         except (IOError, IndexError, UnboundLocalError):
             print "Could not open Pages.lst"
 
