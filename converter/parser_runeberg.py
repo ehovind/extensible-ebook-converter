@@ -268,7 +268,7 @@ class ParserRuneberg(ParserFactory):
                 
                 # seach for chapter numbering and titles
                 articles_format = re.compile(
-                        ur'([\d\w]+)?\|[\d+]?\.?([\w\-?\s?\.()\d]+)\|(\d+)?-?(\d+)?', re.UNICODE)
+                        ur'([\d\w]+)?\|[\d+]?\.?([\w\-?\:?\s?\.()\d]+)\|(\d+)?-?(\d+)?', re.UNICODE)
                 
                 chapter_number = 1
                 for line in f:
@@ -422,7 +422,7 @@ class ParserRuneberg(ParserFactory):
                 start_pos = f.tell()
 
                 for page_number in page_anchors.keys():
-                    pages_lst_format = re.compile(ur"^(0{0,3}%d)\|([\d+]+)$"%page_number)
+                    pages_lst_format = re.compile(ur"^(0{0,3}%d)\|([\d+]+)\s?$"%page_number)
                     for line in f:
                         match = pages_lst_format.search(line)
                         if match:
