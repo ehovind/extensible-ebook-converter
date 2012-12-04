@@ -123,9 +123,9 @@ class AnalyzerFactory(object):
             Abstract method, implemented in subclasses.
             
         PARAMETERS:
-            None
+            file    string      name of file to analyze
         
         RETURN: 
-            void
+            status  dict        status information
         """
         raise NotImplementedError( "No implementation available" )
