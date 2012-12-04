@@ -381,14 +381,19 @@ class SourceAnalyzer(object):
         body = etree.Element("body")
         root.append(body)
 
+        # add header
+        h1 = etree.Element("h1")
+        h1.text = "Publication: " + self.title
+        body.append(h1)
+
         # build table for Articles.lst and Metadata and insert rows
         header = ["Filename", "Encoding", "Parsable", "Status" ]
-        table_name = "Publication structure and metadata"
+        table_name = "Structure and metadata"
         self.xml_operations.build_table_final_objects(body, table_name, header, report_entries_structure)
         
         # build table for publication content and insert rows
         header = ["Filename", "Encoding", "Markup", "Spellcheck"]
-        table_name = "Publication content"
+        table_name = "Content"
         self.xml_operations.build_table_final_objects(body, table_name, header, report_entries_content)
 
         # serialize the XML to Unicode strings
