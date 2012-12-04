@@ -255,7 +255,7 @@ class EbookEpub(EbookFactory):
         print "\t[STATUS] Update container images... "
         
         # copy all image files
-        all_image_files = self.file_operations.list_files(self.working_path + "/images/", "*.gif")
+        all_image_files = self.file_operations.list_files(self.working_path + "/images/", "*.*")
         
         for filename in all_image_files:
             shutil.copy2(filename, self.images_path)

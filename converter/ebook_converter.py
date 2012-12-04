@@ -122,6 +122,7 @@ class EbookConverter(object):
         # compress only after manual modifications
         if self.compress_only:
             try:
+                ebook.update_publication_content()
                 ebook.compress()
             except NotImplementedError:
                 print "[FATAL] Ebook builder not impermented"
