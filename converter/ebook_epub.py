@@ -227,6 +227,9 @@ class EbookEpub(EbookFactory):
             self.xml_operations.replace_attrib(tree,
                     "{http://www.w3.org/1999/xhtml}link",
                                                       "href", self.book_css    ) 
+            self.xml_operations.replace_attrib(tree,
+                    "{http://www.w3.org/1999/xhtml}img",
+                                                      "src", "../images/"    ) 
             # serialize the XML to Unicode strings
             root_unicode = etree.tostring(tree.getroot(), encoding=unicode, pretty_print=True)
         
@@ -623,8 +626,11 @@ class EbookEpub(EbookFactory):
         css = etree.Element("item", attribs)
         manifest.append(css)
         
+        #
+        # Image
+        #
         # insert Cover elements
-        comment = etree.Comment("Cover image")
+        comment = etree.Comment("Images")
         manifest.append(comment)
         attribs = { "id" : "cover-image", "href":"images/cover.gif", "media-type":"image/gif" }
         cover = etree.Element("item", attribs)
@@ -632,6 +638,23 @@ class EbookEpub(EbookFactory):
         attribs = { "id" : "cover", "href":"cover.xml", "media-type":"application/xhtml+xml" }
         cover = etree.Element("item", attribs)
         manifest.append(cover)
+        # other images
+        all_html_files = self.file_operations.list_files(self.epub_text_path, "*.html")
+        all_images = self.xml_operations.find_tag(all_html_files, 
+                "{http://www.w3.org/1999/xhtml}img", "src")
+        for image in all_images:
+            if image.endswith("jpg"):
+                media_type = "image/jpeg"
+            elif image.endswith("gif"):
+                media_type = "image/gif"
+            else:
+                media_type = "image/png"
+
+            image_id = "image" + os.path.splitext(os.path.basename(image))[0]
+            image_ref = "images/" + (os.path.basename(image))
+            attribs = {"id":image_id, "href":image_ref, "media-type":media_type}
+            image_item = etree.Element("item", attribs)
+            manifest.append(image_item)
 
         # insert NCX element
         comment = etree.Comment("NCX")

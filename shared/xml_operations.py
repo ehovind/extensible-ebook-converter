@@ -413,9 +413,40 @@ class XMLOperations(object):
         # search for attribute
         for element in tree.getiterator():
             if element.tag == element_tag:
-                element.attrib[attrib] = value
+                # replace img
+                if element.tag == "{http://www.w3.org/1999/xhtml}img":
+                    element.attrib[attrib] = value + os.path.basename(element.attrib[attrib])
                 
+                # replace other tags
+                else:
+                    element.attrib[attrib] = value
+                
+    # ==========================================================================
+    # METHOD:
+    #   find_tag(self,tree, element_tag, attrib)
+    # ==========================================================================
+    def find_tag(self, all_files, element_tag, attrib):
+        """
+        DESCRIPTION:
+            
+        PARAMETERS:
+        
+        RETURN: 
+        """
+        images = []
 
+        try:
+            for filename in all_files:
+                parser = etree.XMLParser()
+                tree = etree.parse(filename,parser)
+                for element in tree.getiterator():
+                    if element.tag == element_tag:
+                        images.append(element.attrib[attrib])
+        except KeyError:
+            print "[ERROR] Could not find tag"
+
+        return images
+        
 
     # ==========================================================================
     # METHOD:
