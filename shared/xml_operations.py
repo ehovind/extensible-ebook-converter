@@ -52,7 +52,8 @@ class XMLOperations(object):
     # METHOD:
     #   build_xhtml_skel_final(title_text, css)
     # ==========================================================================
-    def build_xhtml_skel_final(self, title_text, css):
+    @staticmethod
+    def build_xhtml_skel_final(title_text, css):
         """
         DESCRIPTION:
             
@@ -98,7 +99,8 @@ class XMLOperations(object):
     # METHOD:
     #   build_table_skel(body, table_name, header)
     # ==========================================================================
-    def build_table_skel(self, body, table_name, header):
+    @staticmethod
+    def build_table_skel(body, table_name, header):
         """
         DESCRIPTION:
             
@@ -136,7 +138,8 @@ class XMLOperations(object):
     # METHOD:
     #   build_table_final_objects(body, table_name, header, report_entries)
     # ==========================================================================
-    def build_table_final_objects(self, body, table_name, header, report_entries):
+    @staticmethod
+    def build_table_final_objects(body, table_name, header, report_entries):
         """
         DESCRIPTION:
             
@@ -274,7 +277,8 @@ class XMLOperations(object):
     # METHOD:
     #   build_content_opf_skel_final():
     # ==========================================================================
-    def build_content_opf_skel_final(self):
+    @staticmethod
+    def build_content_opf_skel_final():
         """
         DESCRIPTION:
             
@@ -337,7 +341,8 @@ class XMLOperations(object):
     # METHOD:
     #   build_ncx_skel_final()
     # ==========================================================================
-    def build_ncx_skel_final(self):
+    @staticmethod
+    def build_ncx_skel_final():
         """
         DESCRIPTION:
             
@@ -366,7 +371,8 @@ class XMLOperations(object):
     # METHOD:
     #   insert_paragrap_into_XHTML_final(tree, page_number, text)
     # ==========================================================================
-    def insert_paragrap_into_XHTML_final(self, tree, page_number, text):
+    @staticmethod
+    def insert_paragrap_into_XHTML_final(tree, page_number, text):
         """
         DESCRIPTION:
             
@@ -398,9 +404,10 @@ class XMLOperations(object):
 
     # ==========================================================================
     # METHOD:
-    #   replace_attrib(self,tree, element_tag, attrib, value)
+    #   replace_attrib(tree, element_tag, attrib, value)
     # ==========================================================================
-    def replace_attrib(self, tree, element_tag, attrib, value):
+    @staticmethod
+    def replace_attrib(tree, element_tag, attrib, value):
         """
         DESCRIPTION:
             
@@ -423,9 +430,10 @@ class XMLOperations(object):
                 
     # ==========================================================================
     # METHOD:
-    #   find_tag(self,tree, element_tag, attrib)
+    #   find_tag(all_files, element_tag, attrib)
     # ==========================================================================
-    def find_tag(self, all_files, element_tag, attrib):
+    @staticmethod
+    def find_tag(all_files, element_tag, attrib):
         """
         DESCRIPTION:
             
@@ -438,7 +446,7 @@ class XMLOperations(object):
         try:
             for filename in all_files:
                 parser = etree.XMLParser()
-                tree = etree.parse(filename,parser)
+                tree = etree.parse(filename, parser)
                 for element in tree.getiterator():
                     if element.tag == element_tag:
                         images.append(element.attrib[attrib])
@@ -452,7 +460,8 @@ class XMLOperations(object):
     # METHOD:
     #   clean_markup(tree)
     # ==========================================================================
-    def clean_markup(self, tree):
+    @staticmethod
+    def clean_markup(tree):
         """
         DESCRIPTION:
             

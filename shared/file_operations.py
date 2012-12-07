@@ -146,10 +146,10 @@ class FileOperations():
 
     # ==========================================================================
     # METHOD:
-    #   read_xml_final(filename, mode="r", encoding="utf-8")
+    #   read_xml_final(filename, mode="r")
     # ==========================================================================
     @staticmethod
-    def read_xml_final(filename, mode="r", encoding="utf-8"):
+    def read_xml_final(filename, mode="r"):
         """
         DESCRIPTION:
             
@@ -172,10 +172,10 @@ class FileOperations():
 
     # ==========================================================================
     # METHOD:
-    #   write_xml_final(filename, data, mode="w", encoding="utf-8")
+    #   write_xml_final(filename, data, mode="w")
     # ==========================================================================
     @staticmethod
-    def write_xml_final(filename, data, mode="w", encoding="utf-8"):
+    def write_xml_final(filename, data, mode="w"):
         """
         DESCRIPTION:
             
@@ -250,10 +250,10 @@ class FileOperations():
 
     # ==========================================================================
     # METHOD:
-    #   write_xml_new(filename, data, mode="w", encoding="utf-8")
+    #   write_xml_new(filename, data, mode="w")
     # ==========================================================================
     @staticmethod
-    def write_xml_new(filename, data, mode="w", encoding="utf-8"):
+    def write_xml_new(filename, data, mode="w"):
         """
         DESCRIPTION:
             

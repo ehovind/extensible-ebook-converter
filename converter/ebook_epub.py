@@ -742,7 +742,8 @@ class EbookEpub(EbookFactory):
         # 
         head =  root.find('head')
         attribs = { "name" : "dtb:uid", "content" : "Espen Hovind"}
-        meta = etree.SubElement(head, "meta", attribs)
+        #meta = etree.SubElement(head, "meta", attribs)
+        etree.SubElement(head, "meta", attribs)
 
 
         #
@@ -769,17 +770,17 @@ class EbookEpub(EbookFactory):
 
         # add all articles to spine
         for article in self.articles:
-            attrib_id = None
-            linear = "yes"
+            #attrib_id = None
+            #linear = "yes"
             
             # article is a chapter
-            if "chapter" in article[0]:
-                attrib_id = article[0]
+            #if "chapter" in article[0]:
+            #    attrib_id = article[0]
 
             # if article filename is a known publication structure type
-            else:
-                attrib_id = article[0]
-                linear = "no"
+            #else:
+            #    attrib_id = article[0]
+            #    linear = "no"
             
             # add navpoint
             attribs = { "id" : "navpoint-" + str(play_order), "playOrder" : str(play_order) }
@@ -788,7 +789,8 @@ class EbookEpub(EbookFactory):
             nav_label_text = etree.SubElement(navlabel, "text")
             nav_label_text.text = article[2]
             attribs = { "src": "text/" + article[1]}
-            nav_content = etree.SubElement(navpoint, "content", attribs)
+            #nav_content = etree.SubElement(navpoint, "content", attribs)
+            etree.SubElement(navpoint, "content", attribs)
             play_order += 1
 
 
@@ -818,7 +820,8 @@ class EbookEpub(EbookFactory):
                 nav_label_text = etree.SubElement(nav_label, "text")
                 nav_label_text.text = str(adjusted_page_number)
                 attribs = { "src": html_file +"#page" + str(page_number)}
-                page_list_content = etree.SubElement(page_target, "content", attribs)
+                #page_list_content = etree.SubElement(page_target, "content", attribs)
+                etree.SubElement(page_target, "content", attribs)
 
 
         # serialize the XML to Unicode strings

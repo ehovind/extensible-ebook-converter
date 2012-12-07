@@ -94,7 +94,8 @@ class GitHandler(object):
     # METHOD:
     #   commit(comment)
     # ==========================================================================
-    def commit(self, comment):
+    @staticmethod
+    def commit(comment):
         """
         DESCRIPTION:
             
@@ -109,7 +110,8 @@ class GitHandler(object):
     # METHOD:
     #   tag(tag, comment)
     # ==========================================================================
-    def tag(self, tag, comment):
+    @staticmethod
+    def tag(tag, comment):
         """
         DESCRIPTION:
             
@@ -125,7 +127,8 @@ class GitHandler(object):
     # METHOD:
     #   branch(id)
     # ==========================================================================
-    def branch(self, branch):
+    @staticmethod
+    def branch(branch):
         """
         DESCRIPTION:
             
@@ -140,7 +143,8 @@ class GitHandler(object):
     # METHOD:
     #   checkout(id)
     # ==========================================================================
-    def checkout(self, branch):
+    @staticmethod
+    def checkout(branch):
         """
         DESCRIPTION:
             
@@ -186,7 +190,8 @@ class GitHandler(object):
     # METHOD:
     #   check_patch(patch_file)
     # ==========================================================================
-    def check_patch(self, patch_file):
+    @staticmethod
+    def check_patch(patch_file):
         """
         DESCRIPTION:
             
@@ -205,7 +210,8 @@ class GitHandler(object):
     # METHOD:
     #   apply_patch(patch_file)
     # ==========================================================================
-    def apply_patch(self, patch_file):
+    @staticmethod
+    def apply_patch(patch_file):
         """
         DESCRIPTION:
             
