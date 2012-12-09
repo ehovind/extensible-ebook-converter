@@ -224,7 +224,7 @@ class ParserRuneberg(ParserFactory):
                 #
                 
                 # read a.lst with full author information 
-                a_content = self.file_operations.read_lines_final(self.a_lst_path)
+                a_content = self.file_operations.read_lines(self.a_lst_path)
 
                 for creator in self.metadata["creator"][1]:
                     search_string =  "|" + creator

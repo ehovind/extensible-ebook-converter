@@ -351,7 +351,7 @@ class FetcherRuneberg(FetcherFactory):
 
                     # read text from file
                     txt_path = original_path + "Pages/" + page_number +".txt"
-                    text = self.file_operations.read_unicode_final(txt_path) 
+                    text = self.file_operations.read_file(txt_path) 
 
                     # insert chapter text
                     self.xml_operations.insert_paragrap_into_XHTML_final(tree, int(page_number), text)
@@ -371,7 +371,7 @@ class FetcherRuneberg(FetcherFactory):
             
                 # write xml tree to file
                 markup_file = working_path + chapter_type + ".html"
-                self.file_operations.write_unicode_final(markup_file, root_unicode)
+                self.file_operations.write_file(markup_file, root_unicode)
         
         # update Articles.lst
         self.update_articles_lst()

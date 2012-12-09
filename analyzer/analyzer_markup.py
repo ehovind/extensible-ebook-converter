@@ -298,7 +298,7 @@ class AnalyzerMarkup(AnalyzerFactory):
 
             filename_only = self.file_operations.filename_only_final(filename)
             report_file = self.markup_reports_path + filename_only
-            self.file_operations.write_unicode_final(report_file, root_unicode)
+            self.file_operations.write_file(report_file, root_unicode)
     
     
     

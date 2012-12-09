@@ -125,7 +125,7 @@ class AnalyzerSpellcheck(AnalyzerFactory):
 
         # get a list of words
         parser = etree.XMLParser()
-        xhtml = self.file_operations.read_xml_final(filename)
+        xhtml = self.file_operations.read_file(filename)
         tree = etree.parse(StringIO.StringIO(xhtml), parser)
         root = tree.getroot()
 
@@ -248,5 +248,5 @@ class AnalyzerSpellcheck(AnalyzerFactory):
 
         filename_only = self.file_operations.filename_only_final(filename)
         report_file = self.spellcheck_reports_path + filename_only
-        self.file_operations.write_unicode_final(report_file, root_unicode)
+        self.file_operations.write_file(report_file, root_unicode)
 

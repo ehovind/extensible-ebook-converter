@@ -129,9 +129,8 @@ class FetcherFactory(object):
         archive_name, archive = FetcherFactory.download_archive(url)
         
         # write file to workspace
-        #archive_path = self.write_to_workspace(archive_name, archive)
         archive_full_path =  archive_path + archive_name 
-        self.file_operations.write_file_final(archive_full_path, archive, "wb")
+        self.file_operations.write_archive(archive_full_path, archive)
             
         return archive_full_path
         
@@ -250,7 +249,7 @@ class FetcherFactory(object):
                 #filename_only = self.file_operations.filename_only_final(filename) 
                 
                 # parse HTML and output well-formed HTML
-                html = self.file_operations.read_unicode_final(filename)
+                html = self.file_operations.read_file(filename)
                 parser = etree.HTMLParser()
                 tree_orig = etree.parse(StringIO.StringIO(html), parser)
                 
@@ -281,7 +280,7 @@ class FetcherFactory(object):
 
                 
                 # write xml tree to file
-                self.file_operations.write_unicode_final(filename, root_unicode)
+                self.file_operations.write_file(filename, root_unicode)
             
             except UnicodeDecodeError as err:
                 print "[ERROR] XHTML conversion could not decode document"

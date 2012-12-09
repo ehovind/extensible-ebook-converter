@@ -45,10 +45,10 @@ class FileOperations():
 
     # ==========================================================================
     # METHOD:
-    #   write_file_final(path, data, mode="w"):
+    #   read_file(filename, mode="r", encoding="utf-8")
     # ==========================================================================
     @staticmethod
-    def write_file_final(path, data, mode="w"):
+    def read_file(filename, mode="r", encoding="utf-8"):
         """
         DESCRIPTION:
             
@@ -57,36 +57,10 @@ class FileOperations():
         RETURN: 
         """
         try:
-            # check directory exists
-            f = open(path, mode)
-            f.write(data)
-            f.close()
-        except IOError as err:
-            print "Writing file error: " +err
-        
-        finally:
-            f.close()
-    # ==========================================================================
-    # METHOD:
-    #   read_unicode_final(filename, mode="r", encoding="utf-8")
-    # ==========================================================================
-    @staticmethod
-    def read_unicode_final(filename, mode="r", encoding="utf-8"):
-        """
-        DESCRIPTION:
-            
-        PARAMETERS:
-        
-        RETURN: 
-        """
-
-        # research: utFile, xml_declaration=True, encoding='utf-16') 
-        try:
-            # check directory exists
             f = codecs.open(filename, mode, encoding)
             data = f.read()
         except IOError as err:
-            print "Writing xml error: " +err
+            print "Reading file error: " +err
         
         finally:
             f.close()
@@ -95,10 +69,10 @@ class FileOperations():
 
     # ==========================================================================
     # METHOD:
-    #   read_lines_final(filename, mode="r", encoding="utf-8")    
+    #   read_lines(filename, mode="r", encoding="utf-8")    
     # ==========================================================================
     @staticmethod
-    def read_lines_final(filename, mode="r", encoding="utf-8"):
+    def read_lines(filename, mode="r", encoding="utf-8"):
         """
         DESCRIPTION:
              
@@ -121,10 +95,10 @@ class FileOperations():
     
     # ==========================================================================
     # METHOD:
-    #   write_unicode_final(filename, data, mode="w", encoding="utf-8")
+    #   write_xml(path, data, mode="w"):
     # ==========================================================================
     @staticmethod
-    def write_unicode_final(filename, data, mode="w", encoding="utf-8"):
+    def write_xml(filename, data, mode="w"):
         """
         DESCRIPTION:
             
@@ -132,67 +106,63 @@ class FileOperations():
         
         RETURN: 
         """
-
         try:
-            # check directory exists
+            f = open(filename, mode)
+            f.write(data)
+        
+        except IOError as err:
+            print "Writing file error: " +err
+        
+        finally:
+            f.close()
+    # ==========================================================================
+    # METHOD:
+    #   write_archive(path, data, mode="wb"):
+    # ==========================================================================
+    @staticmethod
+    def write_archive(filename, data, mode="wb"):
+        """
+        DESCRIPTION:
+            
+        PARAMETERS:
+        
+        RETURN: 
+        """
+        try:
+            f = open(filename, mode)
+            f.write(data)
+        
+        except IOError as err:
+            print "Writing file error: " +err
+        
+        finally:
+            f.close()
+    
+    # ==========================================================================
+    # METHOD:
+    #   write_file(filename, data, mode="w", encoding="utf-8")
+    # ==========================================================================
+    @staticmethod
+    def write_file(filename, data, mode="w", encoding="utf-8"):
+        """
+        DESCRIPTION:
+            
+        PARAMETERS:
+        
+        RETURN: 
+        """
+        try:
+            # open writable file object using utf-8 encoding
             f = codecs.open(filename, mode, encoding)
+
+            # write data string to file
             f.write(data)
         except IOError as err:
-            print "Writing xml error: " +err
+            print "Writing file error: " +err
         
         finally:
             f.close()
 
-
-    # ==========================================================================
-    # METHOD:
-    #   read_xml_final(filename, mode="r")
-    # ==========================================================================
-    @staticmethod
-    def read_xml_final(filename, mode="r"):
-        """
-        DESCRIPTION:
-            
-        PARAMETERS:
-        
-        RETURN: 
-        """
-
-        try:
-            # check directory exists
-            f = open(filename, mode)
-            data = f.read()
-        except IOError as err:
-            print "Writing xml error: " +err
-        
-        finally:
-            f.close()
-
-        return data
-
-    # ==========================================================================
-    # METHOD:
-    #   write_xml_final(filename, data, mode="w")
-    # ==========================================================================
-    @staticmethod
-    def write_xml_final(filename, data, mode="w"):
-        """
-        DESCRIPTION:
-            
-        PARAMETERS:
-        
-        RETURN: 
-        """
-
-        try:
-            # check directory exists
-            f = open(filename, mode)
-            f.write(data)
-        except IOError as err:
-            print "Writing xml error: " +err
-        
-        finally:
-            f.close()
 
     # ==========================================================================
     # METHOD:
@@ -222,54 +192,6 @@ class FileOperations():
 
         self.write_unicode_final(path, archive_unicode)
 
-
-
-    # ==========================================================================
-    # METHOD:
-    #   write_xml(filename, data, mode="w", encoding="utf-8")
-    # ==========================================================================
-    @staticmethod
-    def write_xml(filename, data, mode="w", encoding="utf-8"):
-        """
-        DESCRIPTION:
-            
-        PARAMETERS:
-        
-        RETURN: 
-        """
-
-        try:
-            # check directory exists
-            f = codecs.open(filename, mode, encoding)
-            f.write(data)
-        except IOError as err:
-            print "Writing xml error: " +err
-        
-        finally:
-            f.close()
-
-    # ==========================================================================
-    # METHOD:
-    #   write_xml_new(filename, data, mode="w")
-    # ==========================================================================
-    @staticmethod
-    def write_xml_new(filename, data, mode="w"):
-        """
-        DESCRIPTION:
-            
-        PARAMETERS:
-        
-        RETURN: 
-        """
-        try:
-            # check directory exists
-            f = open(filename, mode)
-            f.write(data)
-        except IOError as err:
-            print "Writing xml error: " +err
-        
-        finally:
-            f.close()
 
 
     

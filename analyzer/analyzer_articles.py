@@ -159,4 +159,4 @@ class AnalyzerArticles(AnalyzerFactory):
         root_unicode = etree.tostring(root, encoding=unicode, pretty_print=True)
         
         # write xml tree to file
-        self.file_operations.write_unicode_final(self.articles_reports_file, root_unicode)
+        self.file_operations.write_file(self.articles_reports_file, root_unicode)

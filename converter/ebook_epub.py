@@ -236,7 +236,7 @@ class EbookEpub(EbookFactory):
             # write xml tree to file
             filename_only = self.file_operations.filename_only_final(filename)
             epub_text_file = self.epub_text_path + filename_only
-            self.file_operations.write_xml(epub_text_file, root_unicode)
+            self.file_operations.write_file(epub_text_file, root_unicode)
                                                    
 
 
@@ -349,7 +349,7 @@ class EbookEpub(EbookFactory):
         root_unicode = etree.tostring(root, encoding=unicode, pretty_print=True)
         
         # write xml tree to file
-        self.file_operations.write_xml(self.toc_html_path, root_unicode)
+        self.file_operations.write_file(self.toc_html_path, root_unicode)
 
     # ==========================================================================
     # METHOD:
@@ -443,7 +443,7 @@ class EbookEpub(EbookFactory):
         root_unicode = etree.tostring(root, encoding=unicode, pretty_print=True)
         
         # write xml tree to file
-        self.file_operations.write_unicode_final(self.cover_xml, root_unicode)
+        self.file_operations.write_file(self.cover_xml, root_unicode)
 
 
 
@@ -504,7 +504,7 @@ class EbookEpub(EbookFactory):
         root_unicode = etree.tostring(root, encoding=unicode, pretty_print=True)
         
         # write xml tree to file
-        self.file_operations.write_unicode_final(self.colophon_xhtml_path, root_unicode)
+        self.file_operations.write_file(self.colophon_xhtml_path, root_unicode)
 
         print "done."
 
@@ -714,7 +714,7 @@ class EbookEpub(EbookFactory):
         root_unicode = etree.tostring(root, xml_declaration=True, encoding='UTF-8', pretty_print=True)
         
         # write xml tree to file
-        self.file_operations.write_xml_new(self.content_opf, root_unicode)
+        self.file_operations.write_xml(self.content_opf, root_unicode)
         
         print "done."
 
@@ -828,7 +828,7 @@ class EbookEpub(EbookFactory):
         root_unicode = etree.tostring(root, xml_declaration=True, encoding="UTF-8", pretty_print=True)
         
         # write xml tree to file  (chapter already UTF-8, dont reencode)
-        self.file_operations.write_xml_final(self.toc_ncx, root_unicode)
+        self.file_operations.write_xml(self.toc_ncx, root_unicode)
 
      
         print "done."

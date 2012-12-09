@@ -176,14 +176,12 @@ class GitHandler(object):
         # create a patch using git format-patch
         cmd = ['git', 'format-patch', 'init', '--stdout']
         try:
-            # check_output not supported in Python 2.6
-            #patch = subprocess.check_output(cmd, shell=False)
             patch = subprocess.Popen(cmd, stdout=subprocess.PIPE).communicate()[0]
         except subprocess.CalledProcessError as cpe:
             print "Error creating patch: ", cpe
 
-        # write string to file
-        self.file_operations.write_file_final(patch_file, patch)
+        # write to file
+        self.file_operations.write_xml(patch_file, patch)
         
 
     # ==========================================================================
