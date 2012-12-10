@@ -19,7 +19,6 @@ along with EeCon.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
 import sys
-#import re
 import urllib2
 import zipfile
 import shutil
@@ -119,10 +118,10 @@ class FetcherFactory(object):
         # application with error message
         try:
             if not self.validate_url_source(url):
-                sys.stderr.write("[ERROR]: domain name is invalid\n")
+                sys.stderr.write("[ERROR]  domain name is invalid\n")
                 sys.exit(1)
         except NotImplementedError:
-            print "[FATAL] URL validation not implemented"
+            print "[FATAL]  URL validation not implemented"
             sys.exit(1)
 
         # download input file
@@ -153,10 +152,10 @@ class FetcherFactory(object):
             archive_name    string      Name of archive
             archive         string      File-like archive
         """
-        print "[STATUS] Get Ebook archive..."
+        print "[STATUS] Get ebook archive... "
         if "mode=txtzip" not in url:
-            print "[ERROR] Wrong archive"
-            print "You should download the \"All text and index files\" version"
+            print "[ERROR]  Wrong archive type"
+            print "\t You should download the \"All text and index files\" version"
             sys.exit(1)
 
         # open and read remote archive
@@ -164,14 +163,14 @@ class FetcherFactory(object):
             response  = urllib2.urlopen(url)
             archive = response.read()
         except urllib2.URLError as err:
-            print "[ERROR] openening remote archive: ", err
+            print "[ERROR]  openening remote archive: ", err
             sys.exit(1)
 
         # parse the rfc822.Message object
         msg = response.info()
         fileinfo = msg.getheader('Content-disposition')
         if fileinfo is None:
-            print "[ERROR] could not open archive header"
+            print "[ERROR]  could not open archive header"
             sys.exit(1)
 
         # extract the archive name
@@ -194,7 +193,7 @@ class FetcherFactory(object):
         RETURN: 
             void
         """
-        print "[STATUS] Extracting Project Runeberg archive... "
+        print "[STATUS] Extracting archive... "
         original_path = self.path_info["original_path"]
 
         try:
@@ -283,11 +282,11 @@ class FetcherFactory(object):
                 self.file_operations.write_file(filename, root_unicode)
             
             except UnicodeDecodeError as err:
-                print "[ERROR] XHTML conversion could not decode document"
+                print "[ERROR]  XHTML conversion could not decode document"
                 print "Check encoding: ", os.path.basename(filename)
 
             except etree.XMLSyntaxError as err:
-                print "[ERROR] XHTML conversion failed: ", os.path.basename(filename), err
+                print "[ERROR]  XHTML conversion failed: ", os.path.basename(filename), err
 
 
     

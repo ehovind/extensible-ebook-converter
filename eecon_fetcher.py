@@ -67,7 +67,7 @@ def parse_command():
     RETURN: 
         Dictionary of command line options
     """
-    print "[STATUS] parsing arguments"
+    print "[STATUS] parsing arguments... ",
 
     # create an ArgumentParser
     parser = argparse.ArgumentParser()
@@ -87,6 +87,8 @@ def parse_command():
 
     # parse the command into a ArgumentParser object
     args = parser.parse_args()
+
+    print "ok."
 
     # return a dict with command line options
     return vars(args)

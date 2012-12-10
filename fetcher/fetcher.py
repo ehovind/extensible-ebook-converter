@@ -139,7 +139,7 @@ class Fetcher(object):
         if not self.source is None:
             # check if source title is already downloaded
             if self.check_title_exists():
-                print "[ERROR] this title is already fetched, exiting..."
+                print "[ERROR]  this title is already fetched, exiting..."
                 sys.exit(1)
             
             
@@ -234,7 +234,7 @@ class Fetcher(object):
         if not self.patch is None:
             # check if title is fetched
             if not self.check_title_exists():
-                print "[ERROR] this title is not fetched. ", 
+                print "[ERROR]  this title is not fetched. ", 
                 print "Available titles: ", os.listdir(books_path)
                 sys.exit(1)
             
@@ -279,7 +279,7 @@ class Fetcher(object):
             self.title = self.args["title"]
 
         if self.title is None:
-            print "[ERROR] could not extract title, define with --title TITLE"
+            print "[ERROR]  could not extract title, define with --title TITLE"
             sys.exit(1)
 
         return self.title
@@ -489,7 +489,7 @@ class Fetcher(object):
             os.chdir(working_path)
 
         except IOError:
-            print "[ERROR] this title is not fetched"
+            print "[ERROR]  this title is not fetched"
             sys.exit(1)
 
         # check patch integrity and actions 
@@ -603,7 +603,7 @@ class Fetcher(object):
 
         print "\n=============================================================="
         print "Ebook archive fetched and initalized!".center(80)
-        print "Title\t: %s" % self.title
-        print "Format\t: %s" % "Project Runeberg"
-        print "Work directory\t: %s" % working_path
+        print "Title: %s" % self.title
+        print "Format: %s" % "Project Runeberg"
+        print "Working directory: %s" % working_path
         print "================================================================"

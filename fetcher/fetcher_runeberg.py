@@ -95,7 +95,7 @@ class FetcherRuneberg(FetcherFactory):
             domain = match.group(2)
 
         except IndexError as err:
-            print("[ERROR]: Could not extract domain name: "), err
+            print("[ERROR]  Could not extract domain name: "), err
             return False
 
         # there is a match, check if domain is valid
