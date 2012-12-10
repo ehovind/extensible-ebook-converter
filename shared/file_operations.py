@@ -190,7 +190,7 @@ class FileOperations():
         except UnicodeDecodeError:
             print "Text already unicode"
 
-        self.write_unicode_final(path, archive_unicode)
+        self.write_file(path, archive_unicode)
 
 
 
