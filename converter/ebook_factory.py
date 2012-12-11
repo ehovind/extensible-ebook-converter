@@ -41,7 +41,7 @@ class EbookFactory(object):
        
     colophon_html = "colophon.html"
     preface_html = "preface.html"
-    cover_gif = "cover.gif"
+    cover_jpg = "cover.jpg"
 
 
     foreword_text = "text/foreword.html"

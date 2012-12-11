@@ -49,7 +49,7 @@ class EbookEpub(EbookFactory):
     container_template_path = "converter/templates/ebook_containers/epub2/"
     book_css = "../css/book.css"
 
-    # recommended cover size (RESEARCH)
+    # recommended cover size
     cover_size = 600, 800
 
 
@@ -83,8 +83,8 @@ class EbookEpub(EbookFactory):
         self.images_path =  self.output_path + "/OEBPS/images/"
         self.style_path =  self.output_path + "/OEBPS/css/"
         self.cover_xml = self.output_path +  "/OEBPS/cover.xml" 
-        self.cover_path =  self.output_path + "/OEBPS/images/" + self.cover_gif
-        self.cover_user_provided_path =  self.working_path + "/images/" + self.cover_gif
+        self.cover_path =  self.output_path + "/OEBPS/images/" + self.cover_jpg
+        self.cover_user_provided_path =  self.working_path + "/images/" + self.cover_jpg
         self.toc_text = "Innhald"
         self.preface_text = "Forord"
         self.colophon_text = "Kolofon"
@@ -164,8 +164,8 @@ class EbookEpub(EbookFactory):
             print "\t\tcontainer already present, copy not needed"
 
         # explicit copy of cover template
-        template_cover =  EbookEpub.container_template_path + "/OEBPS/images/" + self.cover_gif
-        container_cover =  self.output_path + "/OEBPS/images/" + self.cover_gif
+        template_cover =  EbookEpub.container_template_path + "/OEBPS/images/" + self.cover_jpg
+        container_cover =  self.output_path + "/OEBPS/images/" + self.cover_jpg
         shutil.copy2(template_cover, container_cover)
 
 
@@ -307,21 +307,31 @@ class EbookEpub(EbookFactory):
             void
         """
         print "\t[STATUS] Build toc xhtml... "
+
+
+
         
         # create HTML, TITLE, CSS link, META, body
-        tree = self.xml_operations.build_xhtml_skel_final("Innhold", self.book_css)
+        tree = self.xml_operations.build_xhtml_skel_final("Innholdsregister", self.book_css)
         
         root = tree.getroot()
         body = etree.Element("body")
         root.append(body)
 
+        lang = self.metadata["language"][1]
+        if lang == "no":
+            text = "Innholdsregister"
+        else:
+            text = "Innehaallsregister"
         h2 = etree.Element("h2")
-        h2.text =  "Innhold"
+        h2.text =  text
         body.append(h2)
                 
         # insert p
         p = etree.Element("p")
         body.append(p)
+        br = etree.Element("br")
+        p.append(br)
 
         # insert a
         for article in self.articles:
@@ -336,7 +346,7 @@ class EbookEpub(EbookFactory):
             index = 0
             for item in self.articles:
                 if item[0] is "preface":
-                    entry = ["toc", "toc.html", "Innhold", (None, None)]
+                    entry = ["toc", "toc.html", text, (None, None)]
                     self.articles.insert(index+1, entry)
                     break
                 index += 1
@@ -359,7 +369,7 @@ class EbookEpub(EbookFactory):
         """
         DESCRIPTION:
             Build a cover. Either from pre-defined cover image, or generated using
-            Pythin Imaging Library.
+            Python Imaging Library.
         PARAMETERS:
             None
         RETURN: 
@@ -367,11 +377,17 @@ class EbookEpub(EbookFactory):
         """
         print "\t[STATUS] Build cover... "
 
-        author = self.metadata["title"][1]
-        title_full = self.metadata["creator"][4][0]
-       
+        title_full = self.metadata["title"][1]
+        if len(self.metadata["creator"][4]) == 1:
+            author = self.metadata["creator"][4][0]
+        elif len(self.metadata["creator"][4]) == 2:
+            author = self.metadata["creator"][4][0] + " & " + \
+                     self.metadata["creator"][4][1]
+        else:
+            author = "Ukjent"
+
         # check for 
-        print "\t\tsearching for " + self.cover_gif + "...",
+        print "\t\tsearching for " + self.cover_jpg + "...",
         if os.path.exists(self.cover_user_provided_path):
             print "found."
             
@@ -410,14 +426,14 @@ class EbookEpub(EbookFactory):
             # add title text
             text_width, text_height = draw.textsize(title_full, font)
             startx = (self.cover_size[0] - text_width)/2
-            draw.text((startx, starty), title_full, font=font, fill=255)
+            draw.text((startx, starty), title_full, font=font, fill='black')
 
             # add author text
             text_width, text_height = draw.textsize(author, font)
             startx = (self.cover_size[0] - text_width)/2
             starty = starty + (text_height + 100)
-            draw.text((startx, starty), author, font=font, fill=255)
-            im.save(self.cover_path,"GIF")
+            draw.text((startx, starty), author, font=font, fill='black')
+            im.save(self.cover_path,"JPEG")
 
 
         # create HTML, TITLE, CSS link, META, body
@@ -435,7 +451,7 @@ class EbookEpub(EbookFactory):
         p = etree.Element("p")
         body.append(p)
 
-        attribs = { "src":"images/cover.gif", "alt":"Cover", "style":"height:800px;width=600px"}
+        attribs = { "src":"images/cover.jpg", "alt":"Bokomslag", "style":"height:800px;width=600px"}
         img = etree.Element("img", attribs)
         p.append(img)
 
@@ -473,16 +489,25 @@ class EbookEpub(EbookFactory):
         root.append(body)
         
         h1 = etree.Element("h1")
-        h1.text = self.ebook_source.get_title()
+        h1.text = self.metadata["title"][1]
         body.append(h1)
 
+
         p = etree.Element("p")
-        p.text = "Teksten er hentet fra Prosjekt Runeberg."
+        p.text = "Teksten er hentet fra "
+        short_title = self.ebook_source.get_title()
+        attribs = { "href" : "http://runeberg.org/"+short_title}
+        a = etree.Element("a", attribs)
+        a.text = "Prosjekt Runeberg."
+        p.append(a)
         body.append(p)
 
         p = etree.Element("p")
         p.text = "Konvertering til ePub av Extensible eBook Converter (EeCon)."
         body.append(p)
+
+
+
 
 
         # add to articles before preface
@@ -593,7 +618,12 @@ class EbookEpub(EbookFactory):
                     meta.text = dc_value
                     metadata.insert(0, meta)
 
+        # add metadata cover to support Amazon Kindle
+        attribs = { "name" : "cover", "content":"cover-image" }
+        cover = etree.Element("meta", attribs)
+        metadata.append(cover)
 
+        
 
         #
         # insert MANIFEST elements
@@ -632,10 +662,10 @@ class EbookEpub(EbookFactory):
         # insert Cover elements
         comment = etree.Comment("Images")
         manifest.append(comment)
-        attribs = { "id" : "cover-image", "href":"images/cover.gif", "media-type":"image/gif" }
+        attribs = { "id" : "cover-image", "href":"images/cover.jpg", "media-type":"image/jpeg" }
         cover = etree.Element("item", attribs)
         manifest.append(cover)
-        attribs = { "id" : "cover", "href":"cover.xml", "media-type":"application/xhtml+xml" }
+        attribs = { "id" : "cover-html", "href":"cover.xml", "media-type":"application/xhtml+xml" }
         cover = etree.Element("item", attribs)
         manifest.append(cover)
         # other images
@@ -670,7 +700,7 @@ class EbookEpub(EbookFactory):
 
         spine = root.find('spine')
         # cover
-        attribs = { "idref" : "cover", "linear" : "no" }
+        attribs = { "idref" : "cover-html", "linear" : "no" }
         item = etree.Element("itemref", attribs)
         spine.append(item)
         
@@ -699,7 +729,12 @@ class EbookEpub(EbookFactory):
         # insert GUIDE elements
         #
         guide = root.find('guide')
-        
+       
+        # add Cover
+        attribs = { "type" : "cover-html", "title" : "Bokomslag", "href" : "cover.xml" }
+        reference = etree.Element("reference", attribs)
+        guide.append(reference)
+
         # add TOC reference
         attribs = { "type" : "toc", "title" : "Table of Contents", "href" : "text/toc.html" }
         reference = etree.Element("reference", attribs)
