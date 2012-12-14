@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 This file is part of Extensible eBook Converter (EeCon),
 an advanced ebook analysis and conversion tool.
@@ -322,7 +323,7 @@ class EbookEpub(EbookFactory):
         if lang == "no":
             text = "Innholdsregister"
         else:
-            text = "Innehaallsregister"
+            text = u"Innehållsregister"
         h2 = etree.Element("h2")
         h2.text =  text
         body.append(h2)
@@ -776,7 +777,7 @@ class EbookEpub(EbookFactory):
         # <meta>
         # 
         head =  root.find('head')
-        attribs = { "name" : "dtb:uid", "content" : "Espen Hovind"}
+        attribs = { "name" : "dtb:uid", "content" : self.metadata["identifier"][1]}
         #meta = etree.SubElement(head, "meta", attribs)
         etree.SubElement(head, "meta", attribs)
 
@@ -786,12 +787,12 @@ class EbookEpub(EbookFactory):
         #
         doctitle = etree.Element("docTitle")
         title = etree.SubElement(doctitle, "text")
-        title.text = "DOC TITLE"
+        title.text = self.metadata["title"][1]
         root.append(doctitle)
         
         docauthor = etree.Element("docAuthor")
         author = etree.SubElement(docauthor, "text")
-        author.text = "DOC AUTHOR"
+        author.text = self.metadata["creator"][4][0]
         root.append(docauthor)
 
         #
