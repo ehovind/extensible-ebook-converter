@@ -185,7 +185,6 @@ class AnalyzerUnicode(AnalyzerFactory):
 
         all_files = self.file_operations.list_files(self.working_path, "*")
 
-        print "[STATUS] analyzing file encoding... ",
         for filename in all_files:
             if os.path.isfile(filename):
                 file_encoding = self.analyze(filename)
@@ -196,6 +195,5 @@ class AnalyzerUnicode(AnalyzerFactory):
                     and "binary" not in enc and "euc-kr" not in enc:
                     return False
 
-        print "done."
         return True
 

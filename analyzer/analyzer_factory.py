@@ -80,10 +80,7 @@ class AnalyzerFactory(object):
         
         RETURN: 
         """
-        print "\tsearching for dependencies... ", message,
-        
         if len(AnalyzerFactory.dependencies.keys()) is 0:
-            print "ok."
             return
 
         for tool in AnalyzerFactory.dependencies.keys():
@@ -108,8 +105,6 @@ class AnalyzerFactory(object):
                 except OSError:
                     print "[FATAL] No binary: ", tool
                     sys.exit(1)
-
-        print "ok. "
 
             
     # ==========================================================================

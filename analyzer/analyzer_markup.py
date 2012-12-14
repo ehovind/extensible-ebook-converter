@@ -93,6 +93,8 @@ class AnalyzerMarkup(AnalyzerFactory):
         """
         first = True
 
+        print "(parser: " + self.method +")",
+        
         # 
         # analyze using lxml
         #
@@ -245,7 +247,7 @@ class AnalyzerMarkup(AnalyzerFactory):
         # build table skeleton
         body = etree.Element("body")
         root.append(body)
-        tbody = self.xml_operations.build_table_skel(body, "Spellcheck report", header)
+        tbody = self.xml_operations.build_table_skel(body, "Markup report", header)
         
         #
         # table entries

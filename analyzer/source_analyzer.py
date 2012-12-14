@@ -122,6 +122,7 @@ class SourceAnalyzer(object):
             sys.exit(1)
         
         # Initialize the analyzers
+        print "[STATUS] initalizing and searching for dependencies...",
         analyzer_unicode = AnalyzerUnicode(self.path_info, self.encoding_method)
         analyzer_unicode.check_dependencies("Encoding analyzer")
         analyzer_metadata = AnalyzerMetadata(self.path_info, self.metadata_method)
@@ -132,11 +133,12 @@ class SourceAnalyzer(object):
         analyzer_markup.check_dependencies("Markup analyzer")
         analyzer_spellcheck = AnalyzerSpellcheck(self.path_info, self.spellcheck_method)
         analyzer_spellcheck.check_dependencies("Spellcheck analyzer")
+        print "ok."
         
         # check encoding status
         if not analyzer_unicode.validate_encoding():
-            print "[ERROR] non utf-8 encoding detected, check with eanalyze.py"
-            print "[ERROR] Suggestion: convert manually with iconv"
+            print "[FATAL] non utf-8 encoding detected"
+            print "[FATAL] Suggestion: convert with --auto-utf8"
             sys.exit(1)
 
         # prepare the workspace report structure
@@ -192,8 +194,10 @@ class SourceAnalyzer(object):
         content_files = self.file_operations.list_files(working_path, "*.html")
         report_entries_content = list()
         first = True
+        
+        print "[STATUS] analyzing publication... "
         for filename in content_files:
-            print "\t[STATUS] processing file ", os.path.basename(filename),
+            print "\tprocessing", os.path.basename(filename),
             # initiate a new Report entry
             report_entry = ReportEntry("content", filename)
 
