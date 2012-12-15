@@ -26,6 +26,7 @@ from converter import ebook_epub as EbookEpub
 from shared import file_operations as FileOperations
 from shared import xml_operations as XMLOperations
 from shared import git_handler as GitHandler
+from analyzer import analyzer_unicode as AnalyzerUnicode
 # ==========================================================================
 # CLASS:
 #   EbookConverter
@@ -92,6 +93,15 @@ class EbookConverter(object):
         self.path_info = self.prepare_path_info(self.title)
         self.prepare_workspace_folders()
         
+
+        # check encoding status
+        self.analyzer_unicode = AnalyzerUnicode.AnalyzerUnicode(self.path_info, "file")
+        if not self.analyzer_unicode.validate_encoding():
+            print "[FATAL] non utf-8 encoding detected"
+            print "[FATAL] Suggestion: convert with --auto-utf8"
+            sys.exit(1)
+
+
 
         #
         # parse runeberg data
@@ -215,6 +225,7 @@ class EbookConverter(object):
             "original_path" : books_path + title + "/input/original/",
             "working_path"  : books_path + title + "/input/working_directory/",
             "output_path"   : books_path + title + "/output/ebooks/", 
+            "report_path"   : None,
             "patch_path"    : books_path + title + "/output/patches/" }
 
         return path_info
