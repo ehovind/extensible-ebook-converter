@@ -107,7 +107,6 @@ class EbookEpub(EbookFactory):
         RETURN: 
             void
         """
-        print "[STATUS] Building epub... "
 
         # validate input source
         try:
@@ -118,6 +117,7 @@ class EbookEpub(EbookFactory):
             print "[FATAL] source validator not implemented"
             sys.exit(1)
 
+        print "[STATUS] Building ePub... "
         
 
         # prepare epub container skel
@@ -155,7 +155,7 @@ class EbookEpub(EbookFactory):
         RETURN: 
             void
         """
-        print "\t[STATUS] prepare container... "
+        print "\tprepare container... "
 
         # copy container skeleton
         try:
@@ -208,7 +208,7 @@ class EbookEpub(EbookFactory):
         RETURN: 
             void
         """
-        print "\t[STATUS] Update container text... "
+        print "\tupdate container text... ",
 
         # create empty folder
         try:
@@ -240,7 +240,8 @@ class EbookEpub(EbookFactory):
             self.file_operations.write_file(epub_text_file, root_unicode)
                                                    
 
-
+        print "done."
+    
 
 
     # ==========================================================================
@@ -256,7 +257,7 @@ class EbookEpub(EbookFactory):
         RETURN: 
             void
         """
-        print "\t[STATUS] Update container images... "
+        print "\tupdate container images... ",
         
         # copy all image files
         all_image_files = self.file_operations.list_files(self.working_path + "/images/", "*.*")
@@ -264,6 +265,7 @@ class EbookEpub(EbookFactory):
         for filename in all_image_files:
             shutil.copy2(filename, self.images_path)
 
+        print "done."
     # ==========================================================================
     # METHOD:
     #   update_container_style()
@@ -277,7 +279,7 @@ class EbookEpub(EbookFactory):
         RETURN: 
             void
         """
-        print "\t[STATUS] Update container style... "
+        print "\tupdate container style... ",
         
         # create empty folder
         try:
@@ -291,6 +293,7 @@ class EbookEpub(EbookFactory):
         for filename in all_style_files:
             shutil.copy2(filename, self.style_path)
 
+        print "done."
 
 
     # ==========================================================================
@@ -307,7 +310,7 @@ class EbookEpub(EbookFactory):
         RETURN: 
             void
         """
-        print "\t[STATUS] Build toc xhtml... "
+        print "\tbuild table of contents... ",
 
 
 
@@ -354,13 +357,15 @@ class EbookEpub(EbookFactory):
 
         except (ValueError, IndexError) as err:
             print "could not insert articles into toc.html", err
-
+ 
 
         # serialize the XML to Unicode strings
         root_unicode = etree.tostring(root, encoding=unicode, pretty_print=True)
         
         # write xml tree to file
         self.file_operations.write_file(self.toc_html_path, root_unicode)
+
+        print "done."
 
     # ==========================================================================
     # METHOD:
@@ -376,7 +381,7 @@ class EbookEpub(EbookFactory):
         RETURN: 
             void
         """
-        print "\t[STATUS] Build cover... "
+        print "\tbuild cover... "
 
         title_full = self.metadata["title"][1]
         if len(self.metadata["creator"][4]) == 1:
@@ -410,7 +415,7 @@ class EbookEpub(EbookFactory):
 
         # generating cover from template
         else:
-            print "\n\t\t no cover provided, generating from template"
+            print "\n\t\tno cover provided, generating from template... "
             startx = 0
             starty = 300
             font = None
@@ -479,7 +484,7 @@ class EbookEpub(EbookFactory):
         RETURN: 
             void
         """
-        print "\t[STATUS] Build colophon... ",
+        print "\tbuild colophon... ",
         
         # create HTML, TITLE, CSS link, META, body
         tree = self.xml_operations.build_xhtml_skel_final("Colophon", self.book_css)
@@ -548,7 +553,7 @@ class EbookEpub(EbookFactory):
         RETURN: 
             void
         """
-        print "\t[STATUS] Build content.opf... ",
+        print "\tbuild content.opf... ",
 
         # lxml versions older than 2.3 has different syntax for registering a namespace
         if "2.3" in etree.__version__[:3]:
@@ -768,7 +773,7 @@ class EbookEpub(EbookFactory):
         RETURN: 
             void
         """
-        print "\t[STATUS] Build toc.ncx... ",
+        print "\tbuild toc.ncx... ",
       
         tree = self.xml_operations.build_ncx_skel_final()
         root = tree.getroot()
@@ -882,7 +887,7 @@ class EbookEpub(EbookFactory):
         RETURN: 
             void
         """
-        print "\t[STATUS] Compress epub... ",
+        print "\tcompress ePub... ",
 
         # compress epub
         os.chdir(self.output_path)
@@ -919,7 +924,7 @@ class EbookEpub(EbookFactory):
         RETURN: 
             void
         """
-        print "[STATUS] Validating source... "
+        print "[STATUS] Validating source... ",
         all_html_files = self.file_operations.list_files(self.working_path, "*.html")
         
         for filename in all_html_files:
@@ -929,7 +934,7 @@ class EbookEpub(EbookFactory):
     
             except etree.XMLSyntaxError:
                 return False
-        
+        print "ok."
         return True
     
     # ==========================================================================
