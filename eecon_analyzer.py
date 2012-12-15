@@ -77,7 +77,7 @@ def parse_command():
     parser = argparse.ArgumentParser()
 
     # positional arguments
-    parser.add_argument("--language", choices=["sv", "no", "da", "la"], 
+    parser.add_argument("--language", choices=["sv", "nb", "da", "la"], 
             help="select a publicatio language")
     parser.add_argument("--markup", choices=["lxml", "tidy"], 
             help="select a markup parser")
