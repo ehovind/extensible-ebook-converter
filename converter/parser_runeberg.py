@@ -21,6 +21,7 @@ import codecs
 import re
 import sys
 import os
+import uuid
 from collections import deque
 from datetime import date
 
@@ -98,7 +99,7 @@ class ParserRuneberg(ParserFactory):
                                     ("title",)   ],
             "identifier"    :   [   "identifier", None, "id", "BookId", None, 
                                     "must","scheme", None, "optional", 
-                                    ("marc",)   ],
+                                    ("identifier",)   ],
             "language"      :   [   "language", None, None, None, None, 
                                     "must", None, None, None, 
                                     ("language", "original_language",)   ],
@@ -144,7 +145,7 @@ class ParserRuneberg(ParserFactory):
         RETURN: 
             ebook_source    EbookSourceRuneberg     Instance of publication.
         """
-        print "[STATUS] Parsing runeberg archive... "
+        print "[STATUS] Parsing runeberg archive... ",
 
         # parse Pages.lst and search for page anchors in content
         self.parse_pages_lst()
@@ -159,6 +160,7 @@ class ParserRuneberg(ParserFactory):
         ebook_source = SourceRuneberg(  self.title, self.metadata, 
                                         self.articles, self.pages   )
        
+        print "ok."
         return ebook_source
 
 
@@ -177,7 +179,7 @@ class ParserRuneberg(ParserFactory):
         RETURN: 
             metadata    dict        Metadata elements.
         """
-        print "[STATUS] Parse metadata from Runeberg source file... "
+        #print "[STATUS] Parse metadata from Runeberg source file... "
       
         #
         # parse metadata
@@ -214,11 +216,19 @@ class ParserRuneberg(ParserFactory):
 
                 # Custom parsing of MARC
                 # FORMAT: libris:7145869
+                # urn:uuid:45335892-455a-11e2-a11b-002191975187
                 identifier = self.metadata["identifier"][1]
-                if identifier is not None:
-                    self.metadata["identifier"][7] = identifier.split(":")[0]
-                    self.metadata["identifier"][1] = identifier.split(":")[1]
-                    
+                # generate a random UUID
+                if identifier is None or "urn:uuid" not in identifier:
+                    self.metadata["identifier"][7] = "urn:uuid"
+                    unique_id = uuid.uuid1().urn
+                    self.metadata["identifier"][1] = unique_id[unique_id.rfind(":")+1:]
+                # user has generated a URN
+                else:
+                    self.metadata["identifier"][7] = "urn:uuid"
+                    self.metadata["identifier"][1] = identifier[identifier.rfind(":")+1:]
+
+
                 #
                 # lookup additional author information from a.lst
                 #
@@ -236,7 +246,14 @@ class ParserRuneberg(ParserFactory):
                             lastname = line.split('|')[2]
                             fullname = firstname + " " + lastname
                             self.metadata["creator"][4].append(fullname)
-                  
+                    
+                # Could not find full author name
+                if  len(self.metadata["creator"][4]) == 0:
+                    # encode unicode string to a string of bytes
+                    author = self.metadata["creator"][1][0].encode('utf-8')
+                    self.metadata["creator"][4].append(author)
+
+
         except (IOError, KeyError):
             print "[FATAL] Could not parse metadata"
             sys.exit(1)
@@ -260,7 +277,7 @@ class ParserRuneberg(ParserFactory):
             articles    list    Article entries.
         """
         # 
-        print "[STATUS] Parse chapter info from source files... "
+        #print "[STATUS] Parse chapter info from source files... "
 
 
         try:
