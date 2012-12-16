@@ -1,22 +1,28 @@
 ================================================================================
-1. Installation and dependecies
+1. Extensible eBook Converter (EeCon)
 ================================================================================
-================================
-# installation of EeCon
-================================
-Extract the archive in your folder. Run --help to see the supported operations.
+EeCon is an advanced ebook analysis and conversion tool and is licensed under GPLv3.
+EeCon was developed as part of a master thesis and is currently tested using material 
+from Project Runeberg (http://runeberg.org/).
 
-
-
-================================
-# Dependencies
-================================
 EeCon supports Python 2.6 (release: 2008 October) and never.
+
+================================================================================
+2. Installation and dependencies
+================================================================================
+The software is run directly from the folder it was uncompressed to. 
+
+================================
+# installation
+================================
+Extract the archive.
+
+================================
+# dependencies
+================================
 EeCon requires that some functionality is already installed on your system:
 
-#
 # Required packages on Debian/Ubuntu (install using: apt-get install <package>)
-#
 python
 python-lxml
 python-imaging
@@ -28,9 +34,7 @@ w3c-dtd-xhtml
 git
 zip 
 
-#
-# Required packages on Fedora 17 (install using: yum install <package>)
-#
+# Required packages on Fedora (install using: yum install <package>)
 python
 python-lxml
 python-imaging
@@ -38,13 +42,10 @@ python-enchant enchant-aspell aspell-no aspell-sv aspell-da
 python-tidy.noarch
 git
 
-
-
-NOTE: xhtml11-dtds is not available in the Fedora repos, install manually:
+NOTE: 
+xhtml11-dtds is not available in the Fedora repositories, install manually: 
 wget http://olea.org/paquetes-rpm/xhtml11-dtds-1.1-20010531.3.noarch.rpm
 rpm -Uvh xhtml11-dtds-1.1-20010531.3.noarch.rpm 
-
-
 
 ================================
 # Git configuration
@@ -54,42 +55,62 @@ git config --global user.name "Your Name"
 git config --global user.email "Your mail address"
 
 
-
 ================================================================
-2. Work flow
+3. Work flow
 ================================================================
-A typical work flow could be like this:
+Run --help to see the supported operations.
 
+A typical work flow would be like this:
 Select a Project Runeberg publication. E.g. http://runeberg.org/bannlyst/
 Click on download at the bottom of the page, and copy the link item "All text and index files".
 
 # fetch the Project Runeberg archive:
 ./eecon_fetcher.py --source "http://runeberg.org/download.pl?mode=txtzip&work=bannlyst"
 
-# auto-markup
-./eecon_fetcher.py --title bannlyst --auto-markup
+EeCon creates a workspace with the required files and folders. The folder 
+workspace/project_runeberg/books/bannlyst/input/working_directory/ is where 
+all the modifications of the content files take place.
 
-# analyze
+# analyze the publication
 ./eecon_analyzer.py --title bannlyst
 
-# convert
+Produces a report in workspace/project_runeberg/books/bannlyst/output/reports.
+You can view these with your Web browser.
+
+# optional automatic transformations of content
+./eecon_fetcher.py --title bannlyst --auto-markup
+./eecon_fetcher.py --title bannlyst --auto-utf8
+./eecon_fetcher.py --title bannlyst --auto-populate
+./eecon_fetcher.py --title bannlyst --patch a_PATCH_CREATED_BY_EeCon
+
+# convert to ePub
 ./eecon_converter.py --title bannlyst
 
+The finished ebook and Git diff patch is located in: 
+workspace/project_runeberg/books/bannlyst/output/
 
 
 ================================================================
-3. Useful GNU/Linux tools
+4. Git support
 ================================================================
-# sed
-
-# aspell
-
+The working_directory is an initialized Git repository and supports
+all common Git operations. It is recommended to use these when working
+with the content.
 
 
 ================================================================
-4. Testing
+5. Useful GNU/Linux tools
+================================================================
+Recommended GNU/Linux tools for working with publication content:
+- vim, text editor
+- sed, non-interactive stream editor
+- aspell, spellchecker
+
+
+================================================================
+6. Testing and issues
 ================================================================
 EeCon is tested on Debian Squeeze, Ubuntu Precise Pangolin and Fedora 17. 64-bit versions.
-NOTE: Debian squeeze has an outdated lxml package originating from June 2010. This causes some
-problems when causing DOCTYPE in content files, so this functionality is therefore disabled on
-Debian Squeeze.
+NOTE: Debian squeeze has an outdated lxml package originating from June 2010. 
+This causes some problems when creating DOCTYPE in content files, so the functionality is
+disabled on Debian Squeeze. Workaround: manually insert DOCTYPE.
